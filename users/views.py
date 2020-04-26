@@ -1,8 +1,14 @@
 from rest_framework import response, decorators, status, permissions
 
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-from users.serializers import UserRegistrationSerializer
+from users.serializers import UserRegistrationSerializer, AuthTokenObtainPairSerializer
+
+
+class AuthTokenObtainPairView(TokenObtainPairView):
+    """Override `TokenObtainPairView` to change `serializer_class` to our custom one."""
+    serializer_class = AuthTokenObtainPairSerializer
 
 
 @decorators.api_view(['POST'])

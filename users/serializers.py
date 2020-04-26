@@ -1,5 +1,8 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.signals import user_logged_in
+
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 User = get_user_model()
@@ -30,3 +33,21 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+
+
+class AuthTokenObtainPairSerializer(TokenObtainPairSerializer):
+    """
+    Override `TokenObtainPairSerializer` to add `user_logged_in` signal
+    to track when user login with jwt token.
+    """
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        user_logged_in.send(sender=self.user.__class__, request=self.context['request'], user=self.user)
+
+        refresh = self.get_token(self.user)
+
+        data['refresh'] = str(refresh)
+        data['access'] = str(refresh.access_token)
+
+        return data
