@@ -1,18 +1,20 @@
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.views import APIView
-from rest_framework.response import Response
-
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.generics import RetrieveAPIView
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
 from posts.models import Post
-from posts.serializers import PostSerializer
+from posts.serializers import PostSerializer, AnalyticsUserSerializer
+from posts.mixins import RequestTimeAPIMixin
 
 
 User = get_user_model()
 
 
-class PostViewSet(ModelViewSet):
+class PostViewSet(RequestTimeAPIMixin, ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
@@ -21,7 +23,7 @@ class PostViewSet(ModelViewSet):
         serializer.save(user=self.request.user)
 
 
-class PostLikeAPIToggle(APIView):
+class PostLikeAPIToggle(RequestTimeAPIMixin, APIView):
     """
     Like toggle endpoint.
 
@@ -43,3 +45,9 @@ class PostLikeAPIToggle(APIView):
             'info': info
         }
         return Response(data)
+
+
+class AnalyticsUserActivityView(RequestTimeAPIMixin, RetrieveAPIView):
+    # TODO set this view available only for admins
+    queryset = User.objects.all()
+    serializer_class = AnalyticsUserSerializer
