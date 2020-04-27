@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.db import models
-from django.utils.timezone import now
 
 
 class Post(models.Model):
@@ -29,7 +28,7 @@ class Like(models.Model):
         related_name='likes',
         on_delete=models.CASCADE
     )
-    liked_at = models.DateTimeField(default=now())
+    liked_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.user} like {self.post}'
