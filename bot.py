@@ -97,7 +97,8 @@ if __name__ == '__main__':
           'This script will show you all features step by step.\n\n'
           'On each step script will tell what it going to do,\n'
           'give you `>Endpoint` with http method of next request\n'
-          'and short description about what should be in response.')
+          'and short description about what should be in response.\n\n'
+          'Note: make sure to apply all migrations and run server first.\n')
     input('Press Enter to continue')
     print()
     # register -> login
