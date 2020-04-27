@@ -120,13 +120,13 @@ if __name__ == '__main__':
     input('Press Enter')
     print()
 
-    # create_post('First post', 'Content of first post')
-    # create_post('Another one', 'Object of this task is to create a simple REST API.')
-    # create_post('Requirements', 'Implement token authentication (JWT is preferred). Yes I did it)')
+    create_post('First post', 'Content of first post')
+    create_post('Another one', 'Object of this task is to create a simple REST API.')
+    create_post('Requirements', 'Implement token authentication (JWT is preferred). Yes I did it)')
 
     print('/\\' * 10)
     print('Like this posts:\n')
-    print('>Endpoint GET: /api/posts/post_id/like/')
+    print('>Endpoint GET: /api/posts/<int:post_id>/like/')
     print('When reached: like or unlike post with passed `post_id`')
     input('Press Enter')
     print()
@@ -145,26 +145,28 @@ if __name__ == '__main__':
     print()
 
     print('/\\' * 10)
-    print('Time to unlike posts:\n')
-    print('>Endpoint GET: /api/posts/post_id/like/')
+    print('Lets unlike some posts:\n')
+    print('>Endpoint GET: /api/posts/<int:post_id>/like/')
     print('Same endpoint and http method as for like post above')
     input('Press Enter')
     print()
 
-    [like_unlike_post(n) for n in range(1, 4)]
+    [like_unlike_post(n) for n in range(1, 3)]
+    print()
+
+    print('/\\' * 10)
+    print('Make sure we unlike posts by checking amount of likes:\n')
+    input('Press Enter')
+
+    analytics_all_likes()
     print()
 
     print('/\\' * 10)
     print('Show analytics about user activity:\n')
-    print('>Endpoint GET: /api/analytics/user/user_id/')
+    print('>Endpoint GET: /api/analytics/user/<int:user_id>/')
     print('When reached: show time of last login and request of the user with passed `user_id`')
     input('Press Enter')
     print()
 
     analytics_user_activity(1)
     print('\nAll features from the task was shown.\nThank you for your attention :D\n')
-
-    # list posts
-    # print('>Endpoint GET: /api/posts/')
-    # print('Return list of all posts')
-    # list_posts()
