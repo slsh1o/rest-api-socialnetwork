@@ -40,7 +40,6 @@ class PostLikeAPIToggle(RequestTimeAPIMixin, APIView):
         user = self.request.user
         info = 'You are not authenticated!'
         if user and user.is_authenticated:
-            # TODO user == post.likes.filter(user=user).first().user
             if user.id in [post.user.id for post in post.likes.all()]:
                 info = f'Unlike post: {post}'
                 post.likes.get(user=user).delete()
